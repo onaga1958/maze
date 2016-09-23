@@ -7,6 +7,7 @@ class Player:
         self.effects = []
         self.inventory = Inventory()
         self.name = name
+        self.field = 0
 
     def event(self, game, event):
         prevent_default = False

@@ -1,5 +1,7 @@
+1
 2
-0.E
+..E
 ...
-0|T
-0:1:RIGHT
+.|T
+E Exit(RIGHT)
+T Stuff({"сокровище": 1})

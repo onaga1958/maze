@@ -50,12 +50,10 @@ class RubberRoom(Square):
             return None
         return True
 
-def Stuff(objects):
-    class tmp(Square):
-        def __init__(self, message=None):
-            self.message = message
-            self.loot = Inventory(objects)
-    return tmp
+class Stuff(Square):
+    def __init__(self, objects, message=None):
+        self.message = message
+        self.loot = Inventory(objects)
 
 def Hole(Square):
     def __init__(self, target):

@@ -41,9 +41,14 @@ class Field:
 class Game:
     def __init__(self, controller, field, players):
         self.controller = controller
-        self.field = field
+        self.fields = field
         self.players = players
-        self.current_player = 0
+        self.current_player = -1
+        self.next_move()
+
+    @property
+    def field(self):
+        return self.fields[self.player().field]
 
     def log(self, message):
         self.controller.log(message)
@@ -54,7 +59,7 @@ class Game:
     def next_move(self):
         self.current_player = (self.current_player + 1) % len(self.players)
         self.player().event(self, "before_move")
-        self.log("Ход игрока {}".format(self.player()))
+        self.log("--- {} ---".format(self.player()))
 
     def action(self, action):
         done = False
