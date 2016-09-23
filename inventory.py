@@ -17,6 +17,8 @@ def register_object(name, cls=None):
 class Inventory:
     def __init__(self, objects=None):
         if objects:
+            if isinstance(objects, Inventory):
+                objects = objects.objects
             self.objects = objects
         else:
             self.objects = {}
@@ -34,6 +36,9 @@ class Inventory:
         if self.objects[obj] == 0:
             del self.objects[obj]
 
+    def count(self, obj):
+        return self.objects.get(obj, 0)
+    
     def __str__(self):
         if not self:
             return "ничего"

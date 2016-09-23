@@ -1,6 +1,10 @@
 from squares import *
 from game import Field
 NAMES = {"0": Square, "E": Exit, "T": Stuff({"сокровище": 1})}
+LEFT = (0, -1)
+RIGHT = (0, 1)
+UP = (-1, 0)
+DOWN = (1, 0)
 
 def read_field(fname):
     f = open(fname)
@@ -22,9 +26,9 @@ def read_field(fname):
         row = f.readline()
         if not row:
             break
-        row = row.split(";")
+        row = row.split(":")
         x, y = map(int, row[:2])
-        field[x][y] = field[x][y](*eval(row[2]))
+        field[x][y] = field[x][y](*[eval(el) for el in row[2:]])
     for x in range(size):
         for y in range(size):
             if isinstance(field[x][y], type):

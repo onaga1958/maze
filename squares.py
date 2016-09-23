@@ -57,3 +57,22 @@ def Stuff(objects):
             self.loot = Inventory(objects)
     return tmp
 
+def Hole(Square):
+    def __init__(self, target):
+        super(Hole, self).__init__()
+        self.target = target
+
+    def arrive(self, game, player):
+        super(Hole, self).arrive(game, player)
+        game.log("Вы попали в ДЫРУ.")
+        player.position = self.target
+
+def Armory(Square):
+    obj = "патрон"
+    count = 3
+
+    def arrive(self, game, player):
+        super(Armory, self).arrive(game, player)
+        while player.inventory.count(self.obj) < self.count:
+            player.inventory.add(self.obj)
+        game.log("Вы попали на слад - теперь у вас есть {}x{}".format(self.obj, self.count))

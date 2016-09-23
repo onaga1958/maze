@@ -1,4 +1,4 @@
-DIRECTIONS = {"вверх": (-1, 0), "вниз": (1, 0), "влево": (0, -1), "вправо": (0, 1)}
+from constants import DIRECTIONS
 
 class GameEnded(Exception):
     pass
@@ -20,6 +20,19 @@ class Field:
             return not self.vert_walls[position[0]][position[1] + min(0, direction[1])]
         else:
             return not self.hor_walls[position[0] + min(0, direction[0])][position[1]]
+
+    def move(self, game, direction):
+        result = self[game.player().position].can_move(game, game.player(), direction) 
+        if result is None:
+            result = self.can_move(game.player().position, direction)
+            if result:
+                game.player().position = (game.player().position[0] + direction[0],
+                        game.player().position[1] + direction[1])
+                game.field[game.player().position].arrive(game, game.player())
+        if result:
+            game.log("Вы сходили")
+        else:
+            game.log("Там стена")
 
     def __getitem__(self, index):
         return self.squares[index[0]][index[1]]
@@ -46,7 +59,7 @@ class Game:
     def action(self, action):
         done = False
         if action in DIRECTIONS:
-            self.move(DIRECTIONS[action])
+            self.field.move(self, DIRECTIONS[action])
             done = True 
         elif action == "инвентарь":
             self.log("Содержимое сумки: {}".format(self.player().inventory))
@@ -57,19 +70,6 @@ class Game:
         if done:
             self.player().event(self, "move")
             self.next_move()
-
-    def move(self, direction):
-        result = self.field[self.player().position].can_move(self, self.player(), direction) 
-        if result is None:
-            result = self.field.can_move(self.player().position, direction)
-            if result:
-                self.player().position = (self.player().position[0] + direction[0],
-                                          self.player().position[1] + direction[1])
-                self.field[self.player().position].arrive(self, self.player())
-        if result:
-            self.log("Вы сходили")
-        else:
-            self.log("Там стена")
 
     def win(self, player):
         if player.event(self, "win"):
