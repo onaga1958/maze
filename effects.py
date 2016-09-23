@@ -1,7 +1,7 @@
 from inventory import Inventory
 
 class Effect:
-    def __init__(self, game, player):
+    def __init__(self):
         pass
 
     def event(self, game, player, event):
@@ -27,7 +27,7 @@ class ExpiringEffect(Effect):
                 self._expire(player)
 
 class Stun(ExpiringEffect):
-    def __init__(self, game, player, time):
+    def __init__(self, time):
         self.time = time
 
     def event(self, game, player, event):
@@ -36,31 +36,35 @@ class Stun(ExpiringEffect):
             game.next_move()
         else:
             super(Stun, self).event(game, player, event)
-=`=jedi=0, =`=                 (*_*game*_*, player, time) =`=jedi=`=
-class Sleep(ExpiringEffect):
-    time = 4
-    start_position = (0, 0)
 
-    def __init__(self, game, player, time):
-        self.asleep_position = player.position
-        self.asleep_inventory = Inventory(player.inventory)
-        self.asleep_effects = player.effects[:]
-        player.position = self.start_position
+class Sleep(ExpiringEffect):
+    def __init__(self, time, start_field, start_position):
+        self.time = time
+        self.start_field = start_field
+        self.start_position = start_position
 
     def expire(self, game, player):
         game.log("Вы проснулись")
         player.position = self.asleep_position
         player.effects = self.asleep_effects
-        player.inventory = player.asleep_inventory
+        player.inventory = self.asleep_inventory
+        player.field = self.asleep_field
         game.log("Вот что на самом деле лежит в вашей сумке: {}".format(player.inventory))
 
     def event(self, game, player, event):
         super(Sleep, self).event(game, player, event)
+        if event == "start":
+            self.asleep_position = player.position
+            self.asleep_inventory = Inventory(player.inventory)
+            self.asleep_effects = player.effects[:]
+            self.asleep_field = player.field
+            player.position = self.start_position
+            player.field = self.start_field
         if event == "win":
             game.log("Какой приятный был сон!")
             self.expire(game, player)
             return True
         elif event == "die":
-            game.log("Ну и приснится же такое!")
+            game.log("Кошмар. Ну и приснится же такое!")
             self.expire(game, player)
             return True

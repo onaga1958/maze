@@ -23,18 +23,17 @@ def read_field(fname):
                 if symbol == ".":
                     field[x][y] = Square()
                 else:
-                    keys[symbol].append((x, y))
+                    keys[symbol].append((i, x, y))
                 if y != size - 1:
                     vwalls[x][y] = row[2 * y + 1] == "|"
             if x != size - 1:
                 row = f.readline()
                 for y in range(size):
                     hwalls[x][y] = row[2 * y] == "-"
-        for j in range(len(keys)):
-            row = f.readline()
-            symbol = row[0]
-            print(symbol, keys[symbol], eval(row[1:]))
-            for pos in keys[symbol]:
-                field[pos[0]][pos[1]] = eval(row[1:])
         subfields.append(Field(size, field, vwalls=vwalls, hwalls=hwalls))
+    for j in range(len(keys)):
+        row = f.readline()
+        symbol = row[0]
+        for pos in keys[symbol]:
+            subfields[pos[0]][pos[1]][pos[2]] = eval(row[1:])
     return subfields

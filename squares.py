@@ -17,13 +17,14 @@ class Square:
             game.log(self.message)
 
 class EffectorSquare(Square):
-    def __init__(self, message, effect_class):
+    def __init__(self, effect_class, message=None):
         super(EffectorSquare, self).__init__(message)
         self.effect_class = effect_class
 
     def arrive(self, game, player):
         super(EffectorSquare, self).arrive(game, player)
         player.effects.append(self.effect_class())
+        player.effects[-1].event(game, player, "start")
 
 class Exit(Square):
     def __init__(self, direction):
