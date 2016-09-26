@@ -1,4 +1,5 @@
 from inventory import Inventory
+from copy import deepcopy
 
 class Effect:
     def __init__(self):
@@ -55,8 +56,8 @@ class Sleep(ExpiringEffect):
         super(Sleep, self).event(game, player, event)
         if event == "start":
             self.asleep_position = player.position
-            self.asleep_inventory = Inventory(player.inventory)
-            self.asleep_effects = player.effects[:]
+            self.asleep_inventory = deepcopy(player.inventory)
+            self.asleep_effects = deepcopy(player.effects)
             self.asleep_field = player.field
             player.position = self.start_position
             player.field = self.start_field

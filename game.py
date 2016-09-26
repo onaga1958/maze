@@ -70,8 +70,6 @@ class Game:
             self.log("Содержимое сумки: {}".format(self.player().inventory))
         elif action.split()[0] in self.player().inventory:
             done = self.player().inventory.action(self, self, self.player(), action)
-        else:
-            self.controller.log("Невозможное действие")
         if done:
             self.player().event(self, "move")
             self.next_move()

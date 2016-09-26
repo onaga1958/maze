@@ -56,7 +56,7 @@ class Stuff(Square):
         self.message = message
         self.loot = Inventory(objects)
 
-def Hole(Square):
+class Hole(Square):
     def __init__(self, target):
         super(Hole, self).__init__()
         self.target = target
@@ -66,7 +66,7 @@ def Hole(Square):
         game.log("Вы попали в ДЫРУ.")
         player.position = self.target
 
-def Armory(Square):
+class Armory(Square):
     obj = "патрон"
     count = 3
 

@@ -51,7 +51,10 @@ class Inventory:
         return ", ".join(tmp)
 
     def update(self, inv):
-        self.objects.update(inv.objects)
+        for obj, count in inv.objects.items():
+            if obj not in self.objects:
+                self.objects[obj] = 0
+            self.objects[obj] += count
 
     def __contains__(self, key):
         return key in self.objects
