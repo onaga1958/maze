@@ -16,10 +16,13 @@ class Controller:
         self.chat_id = chat_id
 
     def answer(self, pid, message):
-        pass
+        raise NotImplementedError()
 
     def receive(self, pid=None):
-        pass
+        raise NotImplementedError()
+
+    def log(self, message):
+        raise NotImplementedError()
 
     def add(self, pid, name, pos):
         try:
@@ -71,13 +74,11 @@ class Controller:
         except GameEnded:
             exit()
 
-    def log(self, message):
-        pass
 
 
 class VkController(Controller):
     def __init__(self, fname, chat_id):
-        session = vk.Session(access_token="4c83d6c3d96a6988baf1be8281d9ca7b04438c11f8e27360609564e10d1824d6fcd335d21117836b0f39a")
+        session = vk.Session(access_token="")
         self.api = vk.API(session)
         self.messages = deque()
         self.data = None
