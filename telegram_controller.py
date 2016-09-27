@@ -71,7 +71,10 @@ class TelegramController:
         if update.message.chat_id in TelegramController.instances:
             self = TelegramController.instances[update.message.chat_id]
             self.accept_players = False
-            self.game = Game(self, self.field, shuffle(self.players))
+            self.log("Игра началась")
+            self.log("Пишите 'помощь' в свой ход, чтобы узнать, что делать")
+            shuffle(self.players)
+            self.game = Game(self, self.field, self.players)
 
     def log(self, message):
         self.bot.sendMessage(chat_id=self.chat_id, text=message)
