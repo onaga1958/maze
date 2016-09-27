@@ -23,8 +23,7 @@ class EffectorSquare(Square):
 
     def arrive(self, game, player):
         super(EffectorSquare, self).arrive(game, player)
-        player.effects.append(self.effect_class())
-        player.effects[-1].event(game, player, "start")
+        player.add_effect(game, self.effect_class())
 
 class Exit(Square):
     def __init__(self, direction):
@@ -74,4 +73,4 @@ class Armory(Square):
         super(Armory, self).arrive(game, player)
         while player.inventory.count(self.obj) < self.count:
             player.inventory.add(self.obj)
-        game.log("Вы попали на слад - теперь у вас есть {}x{}".format(self.obj, self.count))
+        game.log("Вы попали на склад - теперь у вас есть {} x{}".format(self.obj, self.count))

@@ -57,9 +57,13 @@ class Game:
         return self.players[self.current_player]
 
     def next_move(self):
-        self.current_player = (self.current_player + 1) % len(self.players)
-        self.player().event(self, "before_move")
+        while True:
+            self.current_player = (self.current_player + 1) % len(self.players)
+            if self.player().active:
+                break
+            print(self.players)
         self.log("--- {} ---".format(self.player()))
+        self.player().event(self, "before_move")
 
     def action(self, action):
         done = False
@@ -69,7 +73,7 @@ class Game:
         elif action == "инвентарь":
             self.log("Содержимое сумки: {}".format(self.player().inventory))
         elif action.split()[0] in self.player().inventory:
-            done = self.player().inventory.action(self, self, self.player(), action)
+            done = self.player().inventory.action(self, self.player(), action)
         if done:
             self.player().event(self, "move")
             self.next_move()
