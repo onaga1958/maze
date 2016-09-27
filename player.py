@@ -20,7 +20,7 @@ class Player:
     def die(self, game):
         if self.event(game, "die"):
             return
-        game.log("Вы умерли")
+        game.log(self, "Вы умерли")
         game.field[self.position].loot.update(self.inventory)
         self.inventory = Inventory()
         self.position = self.start_position

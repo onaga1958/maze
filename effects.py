@@ -76,7 +76,7 @@ class Dream(ExpiringEffect):
         self.body = body
 
     def expire(self, game, player):
-        game.log("Вы проснулись")
+        game.log(player, "Вы проснулись")
         self.sleep_effect.expire(game, self.body)
         game.log("Вот что на самом деле лежит в вашей сумке: {}".format(player.inventory))
 

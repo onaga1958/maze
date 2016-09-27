@@ -1,6 +1,7 @@
 from constants import DIRECTIONS
 
 class Object:
+    "Это обычный предмет"
     def __init__(self, name):
         self.name = name
         self.count = 1
@@ -20,6 +21,7 @@ register_object("сокровище", Object)
 
 @register_object("патрон")
 class Bullet(Object):
+    "в/н/л/п - выстрелить в заданую сторону"
     @staticmethod
     def action(game, player, action):
         if action in DIRECTIONS:
