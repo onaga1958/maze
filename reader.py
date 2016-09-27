@@ -2,6 +2,7 @@ from collections import defaultdict
 from squares import *
 from effects import *
 from game import Field
+import importlib
 LEFT = (0, -1)
 RIGHT = (0, 1)
 UP = (-1, 0)
@@ -9,6 +10,10 @@ DOWN = (1, 0)
 
 def read_field(fname):
     f = open(fname)
+    try:
+        importlib.import_module(fname.split(".")[0])
+    except ImportError:
+        pass
     subfield_number = int(f.readline())
     subfields = []
     keys = defaultdict(lambda: [])
