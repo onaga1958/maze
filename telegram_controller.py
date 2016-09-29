@@ -4,7 +4,7 @@ from game import Game, GameEnded
 from reader import read_field
 from player import Player
 from random import shuffle
-import pickle
+import dill as pickle
 
 class TelegramController:
     instances = {}
@@ -16,6 +16,11 @@ class TelegramController:
         cls.updater.dispatcher.add_handler(CommandHandler('go', cls.go))
         cls.updater.dispatcher.add_handler(CommandHandler('ready', cls.ready))
         cls.updater.dispatcher.add_handler(MessageHandler([Filters.text], cls.on_message))
+        try:
+            with open("pickle.bin", "rb") as f:
+                cls.instances = pickle.load(f)
+        except FileNotFoundError:
+            pass
         cls.updater.start_polling()
         cls.updater.idle()
 
@@ -92,6 +97,16 @@ class TelegramController:
 
     @staticmethod
     def on_message(bot, update):
+        with open("pickle.bin", "wb") as f:
+            pickle.dump(TelegramController.instances, f)
         if update.message.chat_id in TelegramController.instances:
             TelegramController.instances[update.message.chat_id].bot = bot 
             TelegramController.instances[update.message.chat_id].action(update.message) 
+
+    def __getstate__(self):
+        return (self.chat_id, self.game)
+
+    def __setstate__(self, state):
+        self.chat_id, self.game = state
+        self.game.controller = self
+

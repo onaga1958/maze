@@ -3,6 +3,7 @@ from squares import *
 from effects import *
 from game import Field
 import importlib
+from field import *
 LEFT = (0, -1)
 RIGHT = (0, 1)
 UP = (-1, 0)
@@ -10,10 +11,6 @@ DOWN = (1, 0)
 
 def read_field(fname):
     f = open(fname)
-    try:
-        importlib.import_module(fname.split(".")[0])
-    except ImportError:
-        pass
     subfield_number = int(f.readline())
     subfields = []
     keys = defaultdict(lambda: [])
@@ -35,13 +32,11 @@ def read_field(fname):
             if x != size - 1:
                 row = f.readline()
                 for y in range(size):
-                    hwalls[x][y] = row[2 * y] == "-"
+                    hwalls[x][y] = row[2 * y] == "="
         subfields.append(Field(size, field, vwalls=vwalls, hwalls=hwalls))
-    print(keys)
     for j in range(len(keys)):
         row = f.readline()
         symbol = row[0]
-        print(symbol, keys[symbol])
         for pos in keys[symbol]:
             subfields[pos[0]].squares[pos[1]][pos[2]] = eval(row[1:])
     return subfields

@@ -2,9 +2,7 @@ from constants import DIRECTIONS
 
 class Object:
     "Это обычный предмет"
-    def __init__(self, name):
-        self.name = name
-        self.count = 1
+    pass
 
 OBJECTS = {}
 
@@ -28,11 +26,14 @@ class Bullet(Object):
             position = player.position
             direction = DIRECTIONS[action]
             while True:
+                killed = False
                 for other in game.players:
-                    if other.position == position and player.name != other.name:
+                    if other.position == position and other.field == player.field and player.name != other.name:
                         game.log("Вы попали в игрока {}".format(other.name))
                         other.die(game)
-                        return True
+                        killed = True
+                if killed:
+                    return True
                 if game.field.can_move(position, direction):
                     position = (position[0] + direction[0],
                             position[1] + direction[1])

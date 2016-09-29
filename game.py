@@ -1,5 +1,6 @@
 from constants import DIRECTIONS
 from objects import OBJECTS
+from emoji import emojize
 
 class GameEnded(Exception):
     pass
@@ -23,6 +24,7 @@ class Field:
             return not self.hor_walls[position[0] + min(0, direction[0])][position[1]]
 
     def move(self, game, direction):
+        NAME = {(0, 1): "вправо :arrow_right:", (0, -1): "влево :arrow_left:", (-1, 0): "вверх :arrow_up:", (1, 0): "вниз :arrow_down:"}
         result = self[game.player().position].can_move(game, game.player(), direction) 
         if result is None:
             result = self.can_move(game.player().position, direction)
@@ -31,9 +33,9 @@ class Field:
                         game.player().position[1] + direction[1])
                 game.field[game.player().position].arrive(game, game.player())
         if result:
-            game.log(game.player(), "Вы сходили")
+            game.log(game.player(), emojize("Вы сходили {}".format(NAME[direction]), use_aliases=True))
         else:
-            game.log(game.player(), "Там стена")
+            game.log(game.player(), emojize("Невозможно сходить {}. Там стена :no_entry:".format(NAME[direction]), use_aliases=True))
 
     def __getitem__(self, index):
         return self.squares[index[0]][index[1]]
@@ -105,3 +107,9 @@ class Game:
             return
         self.log("Игра завершена")
         raise GameEnded()
+    
+    def __getstate__(self):
+        return (self.fields, self.players, self.current_player)
+
+    def __setstate__(self, state):
+        self.fields, self.players, self.current_player = state
