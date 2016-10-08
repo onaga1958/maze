@@ -40,3 +40,11 @@ class Bullet(Object):
                 else:
                     game.log("Вы промазали")
                     return True
+
+@register_object("скакалка")
+class Jumping_Rope(Object):
+    "напишите 'скакалка прыгать', чтобы попрыгать" 
+    @staticmetod
+    def action(game, player, action):
+        if action == "прыгать":
+            return True
