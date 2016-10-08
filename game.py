@@ -1,6 +1,6 @@
 from constants import DIRECTIONS
 from objects import OBJECTS
-from emoji import emojize
+#from emoji import emojize
 
 class GameEnded(Exception):
     pass
@@ -34,8 +34,10 @@ class Field:
                 game.field[game.player().position].arrive(game, game.player())
         if result:
             game.log(game.player(), emojize("Вы сходили {}".format(NAME[direction]), use_aliases=True))
+           #game.log(game.player(), "Вы сходили {}".format(NAME[direction]))
         else:
             game.log(game.player(), emojize("Невозможно сходить {}. Там стена :no_entry:".format(NAME[direction]), use_aliases=True))
+           #game.log(game.player(), "Невозможно сходить {}. Там стена :no_entry:".format(NAME[direction]))
 
     def __getitem__(self, index):
         return self.squares[index[0]][index[1]]
@@ -47,6 +49,7 @@ class Game:
         self.fields = field
         self.players = players
         self.current_player = -1
+        self.turn_number = 0
         self.next_move()
 
     @property
@@ -66,8 +69,14 @@ class Game:
     def next_move(self):
         while True:
             self.current_player = (self.current_player + 1) % len(self.players)
+            if self.current_player == 0:
+                for player in self.players:
+                    player.event(self, "start_turn")
+                self.turn_number += 1
+                self.log("Начинается {} ход".format(self.turn_number))
             if self.player().active:
                 break
+
             print(self.players)
         self.log("--- {} ---".format(self.player()))
         self.player().event(self, "before_move")
