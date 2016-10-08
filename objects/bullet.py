@@ -27,8 +27,9 @@ class Bullet(Object):
 
 @register_object("скакалка")
 class Jumping_Rope(Object):
-    "напишите 'скакалка прыгать', чтобы попрыгать" 
-    @staticmetod
+    "прыгать - проверить: земля ли под Вами?"
+    @staticmethod
     def action(game, player, action):
         if action == "прыгать":
-            return True
+            game.log("Вы попрыгали. Кажется, под Вами и правда земля")
+            return False 
