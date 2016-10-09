@@ -1,11 +1,14 @@
-1
+2
 3
- :1: 
+ :D: 
 .+.+.
- :T: 
+ :T:Z
 .+.+.
 E:J: 
+1
+O
 T Stuff({"сокровище": 1})
 E Exit(LEFT)
 J Stuff({"дубина": 1})
-1 EffectorSquare(lambda: River((0,2)))
+D EffectorSquare(lambda: DeferredSleep(5, 3, 1, (0,0)))
+Z EffectorSquare(lambda: Sleep(3, 1, (0,0)))

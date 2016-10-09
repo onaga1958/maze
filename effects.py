@@ -37,7 +37,9 @@ class River(Effect):
     def event(self, game, player, event):
         if event == "start_turn":
             player.position = self.destination
-    
+
+
+
 class Stun(Effect):
     def __init__(self, time):
         self.time = time
@@ -69,6 +71,9 @@ class Sleep(Effect):
         if event == "start":
             self.spirit = deepcopy(player)
             self.spirit.effects.pop() #remove this effect
+            for eff in self.spirit.effects:
+                if type(eff) == type(DeferredSleep(1,1,1,(1,1))):            
+                    self.spirit.effects.remove(eff)
             self.spirit.position = self.start_position
             self.spirit.field = self.start_field
             self.spirit.add_effect(game, Dream(self.time, self, player))
@@ -76,6 +81,24 @@ class Sleep(Effect):
             player.active = False
         elif event == "die":
             self.expire(game, player)
+            return False
+
+class DeferredSleep(ExpiringEffect):
+    def __init__(self, delay_time, sleep_time, start_field, start_position):
+        self.time = delay_time
+        self.start_field = start_field
+        self.start_position = start_position
+        self.sleep_time = sleep_time
+
+    def event(self, game, player, event):
+        if event == "move":
+            self.time -= 1
+            if self.time == -1:
+                self._expire(player)
+                player.add_effect(game, Sleep(self.sleep_time, self.start_field, self.start_position))
+
+        if event == "die":
+            self._expire(player)
             return False
 
 class Dream(ExpiringEffect):

@@ -66,7 +66,7 @@ class Club(Object):
                     if game.fields[other.field].can_move(other.position, direction):
                         other.position = (other.position[0] + direction[0], other.position[1] + direction[1])
                         game.fields[other.field].squares[other.position[0]][other.position[1]].arrive(game, other) 
-            if hit == False:
+            if not hit:
                 game.log("Дубина со свистом рассекла воздух")
             return False
                         
