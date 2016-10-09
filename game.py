@@ -1,7 +1,6 @@
 from constants import DIRECTIONS
 from objects import OBJECTS
 
-
 class GameEnded(Exception):
     pass
 
@@ -103,6 +102,8 @@ class Game:
     def action(self, action):
         done = False
         if action in DIRECTIONS:
+            for eff in self.player().effects:
+                print(eff)
             self.field.move(self, DIRECTIONS[action])
             done = True
         elif action.split()[0] == "помощь":
