@@ -79,6 +79,20 @@ class Sleep(Effect):
             self.expire(game, player)
             return False
 
+"""class DeferredSleep(ExpiringEffect):
+    def __init__(self, delay_time, sleep_time, start_field, start_position):
+        self.time = delay_time
+        self.start_field = start_field
+        self.start_position = start_position
+        self.sleep_time = sleep_time
+
+    def event(self, game, player, event):
+        if event == "move":
+            self.time -= 1
+            if self.time == -1:
+                self._expire(player)
+                player.add_effect(game, Sleep(self.sleep_time, self.start_field, self.start_position))"""
+
 class Dream(ExpiringEffect):
     def __init__(self, time, sleep_effect, body):
         self.time = time
