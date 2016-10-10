@@ -30,15 +30,6 @@ class ExpiringEffect(Effect):
                 self.expire(game, player)
                 self._expire(player)
 
-class River(Effect):
-    def __init__(self, destination):
-        self.destination = destination
-
-    def event(self, game, player, event):
-        if event == "start_turn":
-            player.position = self.destination
-
-
 class Stun(Effect):
     def __init__(self, time):
         self.time = time

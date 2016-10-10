@@ -11,7 +11,7 @@ class Square:
     def event(self, game, player, event):
         if event == "arrive": 
             if self.loot:
-                game.log("Найдены предметы: {}".format(self.loot))
+                game.log(player, "Найдены предметы: {}".format(self.loot))
                 player.inventory.update(self.loot)
                 self.loot = Inventory()
             if self.message:
@@ -65,7 +65,7 @@ class Hole(Square):
     def event(self, game, player, event):
         super(Hole, self).event(game, player, event)
         if event == "arrive":
-            game.log("Вы попали в ДЫРУ.")
+            game.log(player, "Вы попали в ДЫРУ.")
             player.position = self.target
 
 class Armory(Square):
@@ -77,15 +77,16 @@ class Armory(Square):
         if event == "arrive":
             while player.inventory.count(self.obj) < self.count:
                 player.inventory.add(self.obj)
-            game.log("Вы попали на склад - теперь у вас есть {} x{}".format(self.obj, self.count))
+            game.log(player, "Вы попали на склад - теперь у вас есть {} x{}".format(self.obj, self.count))
 
 class River(Square):
     def __init__(self, destination):
+        super(River, self).__init__()
         self.destination = destination
 
     def event(self, game, player, event):
         super(River, self).event(game, player, event)
         if event == "start_turn":
             player.position = self.destination
-            game.field[destination].event(game, player, "arrive")
+            game.field[self.destination].event(game, player, "arrive")
     
