@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/sh
 failed=0
 run=0
 for file in *.test
