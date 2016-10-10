@@ -29,7 +29,7 @@ class Inventory:
         if not self:
             return "ничего"
         tmp = []
-        for k, v in self.objects.items():
+        for k, v in sorted(self.objects.items()):
             if v == 1:
                 tmp.append(k)
             else:

@@ -32,6 +32,7 @@ class Controller:
                 self.game.action(action)
         except GameEnded:
             pass
+        self.test_file.close()
 
     def log(self, message):
         print(message)

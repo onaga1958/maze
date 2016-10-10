@@ -41,6 +41,7 @@ class Controller:
         except GameEnded:
             pass
         print("Successfuly regenerated!")
+        self.output.close()
 
     def log(self, message):
         answer = self.test_file.readline()[:-1]

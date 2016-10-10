@@ -39,6 +39,5 @@ def read_field(fname):
         row = f.readline()
         symbol = row[0]
         for pos in keys[symbol]:
-            print(pos.__dict__)
             field.fields[pos.field].squares[pos.x()][pos.y()] = eval(row[1:])
     return field
