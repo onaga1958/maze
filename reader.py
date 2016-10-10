@@ -4,7 +4,6 @@ from effects import *
 from game import Subfield, Field
 from position import Position
 import importlib
-from field import *
 LEFT = (0, -1)
 RIGHT = (0, 1)
 UP = (-1, 0)
