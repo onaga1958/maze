@@ -47,6 +47,7 @@ class Game:
         self.fields = field
         self.players = players
         self.current_player = -1
+        self.turn_number = 0
         self.next_move()
 
     @property
@@ -66,8 +67,14 @@ class Game:
     def next_move(self):
         while True:
             self.current_player = (self.current_player + 1) % len(self.players)
+            if self.current_player == 0:
+                for player in self.players:
+                    player.event(self, "start_turn")
+                self.turn_number += 1
+                self.log("Начинается {} ход".format(self.turn_number))
             if self.player().active:
                 break
+
             print(self.players)
         self.log("--- {} ---".format(self.player()))
         self.player().event(self, "before_move")
