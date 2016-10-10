@@ -62,6 +62,8 @@ class Field:
             game.log(game.player(), "Невозможно сходить {}. Там стена :no_entry:".format(
                 NAME[direction]))
 
+            
+
     def __getitem__(self, position):
         return self.fields[position.field][position]
 
