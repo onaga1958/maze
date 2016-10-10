@@ -5,7 +5,7 @@ from emoji import emojize
 class GameEnded(Exception):
     pass
 
-class Field:
+class Subfield:
     def __init__(self, size, squares, vwalls, hwalls):
         self.size = size
         self.squares = squares
@@ -13,15 +13,36 @@ class Field:
         self.hor_walls = hwalls
 
     def is_legal(self, position):
-        return 0 <= position[0] < self.size and 0 <= position[1] < self.size
+        return 0 <= position.x() < self.size and 0 <= position.y() < self.size
 
     def can_move(self, position, direction):
-        if not self.is_legal((position[0] + direction[0], position[1] + direction[1])):
+        if not self.is_legal(position + direction):
             return False
         elif direction[0] == 0:
-            return not self.vert_walls[position[0]][position[1] + min(0, direction[1])]
+            return not self.vert_walls[position.x()][position.y() + min(0, direction[1])]
         else:
-            return not self.hor_walls[position[0] + min(0, direction[0])][position[1]]
+            return not self.hor_walls[position.x() + min(0, direction[0])][position.y()]
+
+    def _move(self, game, player, direction):
+        player.position += direction
+        self[player.position].arrive(game, player)
+
+    def __getitem__(self, index):
+        return self.squares[index.x()][index.y()]
+
+class Field:
+    def __init__(self, fields):
+        self.fields = fields
+
+    def is_legal(self, position):
+        return (0 <= position.field < len(self.fields) and
+                self.fields[position.field].is_legal(position))
+
+    def _move(self, game, player, direction):
+        self.fields[player.position.field]._move(game, player, direction)
+
+    def can_move(self, position, direction):
+        return self.fields[position.field].can_move(position, direction)
 
     def move(self, game, direction):
         NAME = {(0, 1): "вправо :arrow_right:", (0, -1): "влево :arrow_left:", (-1, 0): "вверх :arrow_up:", (1, 0): "вниз :arrow_down:"}
@@ -29,30 +50,24 @@ class Field:
         if result is None:
             result = self.can_move(game.player().position, direction)
             if result:
-                game.player().position = (game.player().position[0] + direction[0],
-                        game.player().position[1] + direction[1])
-                game.field[game.player().position].arrive(game, game.player())
+                self._move(game, game.player(), direction)
         if result:
             game.log(game.player(), emojize("Вы сходили {}".format(NAME[direction]), use_aliases=True))
         else:
             game.log(game.player(), emojize("Невозможно сходить {}. Там стена :no_entry:".format(NAME[direction]), use_aliases=True))
 
-    def __getitem__(self, index):
-        return self.squares[index[0]][index[1]]
+    def __getitem__(self, position):
+        return self.fields[position.field][position]
 
 
 class Game:
     def __init__(self, controller, field, players):
         self.controller = controller
-        self.fields = field
+        self.field = field
         self.players = players
         self.current_player = -1
         self.turn_number = 0
         self.next_move()
-
-    @property
-    def field(self):
-        return self.fields[self.player().field]
 
     def log(self, player, message=None):
         if message is None:
@@ -74,8 +89,6 @@ class Game:
                 self.log("Начинается {} ход".format(self.turn_number))
             if self.player().active:
                 break
-
-            print(self.players)
         self.log("--- {} ---".format(self.player()))
         self.player().event(self, "before_move")
 
@@ -116,7 +129,7 @@ class Game:
         raise GameEnded()
     
     def __getstate__(self):
-        return (self.fields, self.players, self.current_player)
+        return (self.field, self.players, self.current_player)
 
     def __setstate__(self, state):
-        self.fields, self.players, self.current_player = state
+        self.field, self.players, self.current_player = state

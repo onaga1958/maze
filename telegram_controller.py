@@ -50,7 +50,7 @@ class TelegramController:
 
     def start(self):
         self.log("Начинается игра!")
-        self.log("Поле имеет размеры {0}x{0}".format(self.field[0].size))
+        self.log("Поле имеет размеры {0}x{0}".format(self.field.fields[0].size))
         self.log('Чтобы присоединиться, напишите мне в личку "/go {} <имя> <начальная позиция>"'.format(self.chat_id))
         self.log("Маленькие английские буквы по горизонтали, цифры с нуля по вертикали")
 
@@ -60,8 +60,8 @@ class TelegramController:
         try:
             x = int(pos[1])
             y = ord(pos[0]) - ord('a')
-            pos = (x, y)
-            if not self.field[0].is_legal(pos):
+            pos = Position(0, x, y)
+            if not self.field.is_legal(pos):
                 raise ValueError
         except ValueError:
             update.message.reply_text("Недопустимая позиция")

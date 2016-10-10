@@ -7,7 +7,6 @@ class Player:
         self.effects = []
         self.inventory = Inventory()
         self.name = name
-        self.field = 0
         self.active = True
 
     def event(self, game, event):
@@ -24,7 +23,6 @@ class Player:
         game.field[self.position].loot.update(self.inventory)
         self.inventory = Inventory()
         self.position = self.start_position
-        self.field = 0
         self.effects = []
 
     def add_effect(self, game, effect):

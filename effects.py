@@ -54,9 +54,8 @@ class Stun(Effect):
             super(Stun, self).event(game, player, event)
 
 class Sleep(Effect):
-    def __init__(self, time, start_field, start_position):
+    def __init__(self, time, start_position):
         self.time = time
-        self.start_field = start_field
         self.start_position = start_position
 
     def expire(self, game, player):
@@ -71,7 +70,6 @@ class Sleep(Effect):
             self.spirit = deepcopy(player)
             self.spirit.effects.pop() #remove this effect
             self.spirit.position = self.start_position
-            self.spirit.field = self.start_field
             self.spirit.add_effect(game, Dream(self.time, self, player))
             game.players.insert(game.current_player, self.spirit)
             player.active = False
