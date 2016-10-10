@@ -1,6 +1,5 @@
 from constants import DIRECTIONS
 from objects import OBJECTS
-from emoji import emojize
 
 class GameEnded(Exception):
     pass
@@ -52,9 +51,9 @@ class Field:
             if result:
                 self._move(game, game.player(), direction)
         if result:
-            game.log(game.player(), emojize("Вы сходили {}".format(NAME[direction]), use_aliases=True))
+            game.log(game.player(), "Вы сходили {}".format(NAME[direction]))
         else:
-            game.log(game.player(), emojize("Невозможно сходить {}. Там стена :no_entry:".format(NAME[direction]), use_aliases=True))
+            game.log(game.player(), "Невозможно сходить {}. Там стена :no_entry:".format(NAME[direction]))
 
             
 

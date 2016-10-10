@@ -4,7 +4,6 @@ from effects import *
 from game import Subfield, Field
 from position import Position
 import importlib
-from field import *
 LEFT = (0, -1)
 RIGHT = (0, 1)
 UP = (-1, 0)
@@ -39,6 +38,5 @@ def read_field(fname):
         row = f.readline()
         symbol = row[0]
         for pos in keys[symbol]:
-            print(pos.__dict__)
             field.fields[pos.field].squares[pos.x()][pos.y()] = eval(row[1:])
     return field

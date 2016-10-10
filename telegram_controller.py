@@ -5,6 +5,7 @@ from reader import read_field
 from player import Player
 from random import shuffle
 import dill as pickle
+from emoji import emojize
 
 class TelegramController:
     instances = {}
@@ -82,7 +83,7 @@ class TelegramController:
             self.game = Game(self, self.field, self.players)
 
     def log(self, message):
-        self.bot.sendMessage(chat_id=self.chat_id, text=message)
+        self.bot.sendMessage(chat_id=self.chat_id, text=emojize(message, use_aliases=True))
 
     def action(self, message):
         action = message.text

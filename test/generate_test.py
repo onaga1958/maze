@@ -31,7 +31,8 @@ class Controller:
                 print(">>>{}".format(action), file=self.test_file)
                 self.game.action(action)
         except GameEnded:
-            self.test_file.close()
+            pass
+        self.test_file.close()
 
     def log(self, message):
         print(message)
