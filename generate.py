@@ -1,8 +1,15 @@
+"""
+Generates a template for a field.
+Usage: generate.py [size1 size2 ...]
+
+size: int - size of the corresponding field
+"""
+from sys import argv
 VWALL = ":"
 HWALL = "."
 ROOM = " "
 CROSS = "+"
-n = list(map(int, input().split()))
+n = list(map(int, argv[1:]))
 print(len(n))
 for el in n:
     print(el)
