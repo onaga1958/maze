@@ -28,15 +28,14 @@ class Bullet(Object):
             while True:
                 killed = False
                 for other in game.players:
-                    if other.position == position and other.field == player.field and player.name != other.name:
+                    if other.position == position and player.name != other.name:
                         game.log("Вы попали в игрока {}".format(other.name))
                         other.die(game)
                         killed = True
                 if killed:
                     return True
                 if game.field.can_move(position, direction):
-                    position = (position[0] + direction[0],
-                            position[1] + direction[1])
+                    position += direction
                 else:
                     game.log("Вы промазали")
                     return True
@@ -59,13 +58,13 @@ class Club(Object):
             hit = False 
             direction = DIRECTIONS[action]
             for other in game.players:
-                if other.field == player.field and player.name != other.name and (other.position == player.position
-                        or other.position == (player.position[0] + direction[0], player.position[1] + direction[1])):
+                if player.name != other.name and (other.position == player.position
+                                                  or other.position == player.position + direction):
                     game.log("Вы попали игроку {} прямо по голове".format(other.name))
                     hit = True
-                    if game.fields[other.field].can_move(other.position, direction):
-                        other.position = (other.position[0] + direction[0], other.position[1] + direction[1])
-                        game.fields[other.field].squares[other.position[0]][other.position[1]].arrive(game, other) 
+                    if game.field.can_move(other.position, direction):
+                        other.position += direction
+                        game.field[other.position].arrive(game, other) 
             if not hit:
                 game.log("Дубина со свистом рассекла воздух")
             return False
