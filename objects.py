@@ -46,7 +46,10 @@ class JumpingRope(Object):
     @staticmethod
     def action(game, player, action):
         if action == "прыгать":
-            game.log("Вы попрыгали. Кажется, под вами и правда земля")
+            if type(game.field[player.position]) != type(River(Position(0,0,0)))
+                game.log("Вы попрыгали. Кажется, под вами и правда земля")
+            else
+                game.log("Вы прыгаете и слышите плеск воды")
             return False 
 
 @register_object("дубина")
