@@ -37,7 +37,7 @@ class River(Effect):
     def event(self, game, player, event):
         if event == "start_turn":
             player.position = self.destination
-
+            game.fields[player.field].squares[player.position[0]][player.position[1]].arrive(game, player)
 
 class Stun(Effect):
     def __init__(self, time):
