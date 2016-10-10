@@ -25,7 +25,7 @@ class Subfield:
 
     def _move(self, game, player, direction):
         player.position += direction
-        self[player.position].arrive(game, player)
+        self[player.position].event(game, player, "arrive")
 
     def __getitem__(self, index):
         return self.squares[index.x()][index.y()]
@@ -55,6 +55,8 @@ class Field:
             game.log(game.player(), emojize("Вы сходили {}".format(NAME[direction]), use_aliases=True))
         else:
             game.log(game.player(), emojize("Невозможно сходить {}. Там стена :no_entry:".format(NAME[direction]), use_aliases=True))
+
+            
 
     def __getitem__(self, position):
         return self.fields[position.field][position]
