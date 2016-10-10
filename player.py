@@ -25,6 +25,7 @@ class Player:
         self.inventory = Inventory()
         self.position = self.start_position
         self.field = 0
+        self.effects = []
 
     def add_effect(self, game, effect):
         self.effects.append(effect)
