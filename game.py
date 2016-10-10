@@ -24,7 +24,7 @@ class Subfield:
 
     def _move(self, game, player, direction):
         player.position += direction
-        self[player.position].event(game, player, "arrive")
+        player.event(game, "arrive")
 
     def __getitem__(self, index):
         return self.squares[index.x()][index.y()]

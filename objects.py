@@ -64,7 +64,7 @@ class Club(Object):
                     hit = True
                     if game.field.can_move(other.position, direction):
                         other.position += direction
-                        game.field[other.position].event(game, other, "arrive") 
+                        other.event(game, "arrive") 
             if not hit:
                 game.log("Дубина со свистом рассекла воздух")
             return False

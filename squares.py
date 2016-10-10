@@ -88,5 +88,5 @@ class River(Square):
         super(River, self).event(game, player, event)
         if event == "start_turn":
             player.position = self.destination
-            game.field[self.destination].event(game, player, "arrive")
+            player.event(game, "arrive")
     
