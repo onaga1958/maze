@@ -8,22 +8,24 @@ class Square:
     def can_move(self, game, player, direction):
         return None
 
-    def arrive(self, game, player):
-        if self.loot:
-            game.log("Найдены предметы: {}".format(self.loot))
-            player.inventory.update(self.loot)
-            self.loot = Inventory()
-        if self.message:
-            game.log(self.message)
+    def event(self, game, player, event):
+        if event == "arrive": 
+            if self.loot:
+                game.log("Найдены предметы: {}".format(self.loot))
+                player.inventory.update(self.loot)
+                self.loot = Inventory()
+            if self.message:
+                game.log(self.message)
 
 class EffectorSquare(Square):
     def __init__(self, effect_class, message=None):
         super(EffectorSquare, self).__init__(message)
         self.effect_class = effect_class
 
-    def arrive(self, game, player):
-        super(EffectorSquare, self).arrive(game, player)
-        player.add_effect(game, self.effect_class())
+    def event(self, game, player, event):
+        super(EffectorSquare, self).event(game, player, event)
+        if event == "arrive":
+            player.add_effect(game, self.effect_class())
 
 class Exit(Square):
     def __init__(self, direction):
@@ -60,17 +62,22 @@ class Hole(Square):
         super(Hole, self).__init__()
         self.target = target
 
-    def arrive(self, game, player):
-        super(Hole, self).arrive(game, player)
-        game.log("Вы попали в ДЫРУ.")
-        player.position = self.target
+    def event(self, game, player, event):
+        super(Hole, self).event(game, player, event)
+        if event == "arrive":
+            game.log("Вы попали в ДЫРУ.")
+            player.position = self.target
 
 class Armory(Square):
     obj = "патрон"
     count = 3
 
-    def arrive(self, game, player):
-        super(Armory, self).arrive(game, player)
-        while player.inventory.count(self.obj) < self.count:
-            player.inventory.add(self.obj)
-        game.log("Вы попали на склад - теперь у вас есть {} x{}".format(self.obj, self.count))
+    def event(self, game, player, event):
+        super(Armory, self).event(game, player, event)
+        if event == "arrive":
+            while player.inventory.count(self.obj) < self.count:
+                player.inventory.add(self.obj)
+            game.log("Вы попали на склад - теперь у вас есть {} x{}".format(self.obj, self.count))
+
+        
+    
