@@ -45,7 +45,7 @@ class Controller:
 
     def log(self, message):
         answer = self.test_file.readline()[:-1]
-        print(answer, file=self.output)
+        print(message, file=self.output)
 
 
 if __name__ == "__main__":
