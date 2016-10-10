@@ -79,5 +79,13 @@ class Armory(Square):
                 player.inventory.add(self.obj)
             game.log("Вы попали на склад - теперь у вас есть {} x{}".format(self.obj, self.count))
 
-        
+class River(Square):
+    def __init__(self, destination):
+        self.destination = destination
+
+    def event(self, game, player, event):
+        super(River, self).event(game, player, event)
+        if event == "start_turn":
+            player.position = self.destination
+            game.field[destination].event(game, player, "arrive")
     
