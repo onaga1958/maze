@@ -42,12 +42,12 @@ class Bullet(Object):
                     return True
 
 @register_object("скакалка")
-class Jumping_Rope(Object):
-    "прыгать - проверить: земля ли под Вами?"
+class JumpingRope(Object):
+    "прыгать - проверить: земля ли под вами?"
     @staticmethod
     def action(game, player, action):
         if action == "прыгать":
-            game.log("Вы попрыгали. Кажется, под Вами и правда земля")
+            game.log("Вы попрыгали. Кажется, под вами и правда земля")
             return False 
 
 @register_object("дубина")
