@@ -1,3 +1,7 @@
+[![Code Climate](https://codeclimate.com/github/nzinov/maze/badges/gpa.svg)](https://codeclimate.com/github/nzinov/maze)
+[![Test Coverage](https://codeclimate.com/github/nzinov/maze/badges/coverage.svg)](https://codeclimate.com/github/nzinov/maze/coverage)
+[![Build Status](https://travis-ci.org/nzinov/maze.svg?branch=master)](https://travis-ci.org/nzinov/maze)
+
 #Maze/Лабиринт
 ##Telegram bot to play pen-and-paper game of the same name
 ###Background
