@@ -29,7 +29,8 @@ class Player:
         for effect in self.effects:
             if effect.event(game, self, event):
                 prevent_default = True
-        game.field[self.position].event(game, self, event) 
+        if game.field[self.position].event(game, self, event):
+            prevent_default = True
         return prevent_default
 
     def die(self, game):
