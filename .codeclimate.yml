@@ -3,8 +3,8 @@ engines:
     duplication:
         enabled: true
         config:
-        languages:
-        - python
+            languages:
+            - python
     fixme:
         enabled: true
     radon:
