@@ -6,3 +6,4 @@ script: coverage run --source=. --omit="test/*","venv/*" run_tests.py && codecli
 addons:
     code_climate:
         repo_token: 8b49dedca5bcdaf03eb2cbafd04c45e2536ca2faf9f4506844b0b6cdaf14fc83
+cache: pip
