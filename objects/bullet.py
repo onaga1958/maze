@@ -24,5 +24,3 @@ class Bullet(Object):
                 else:
                     game.log("Вы промазали")
                     return True
-
-                       
