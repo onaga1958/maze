@@ -2,9 +2,9 @@ language: python
 python:
   - "3.5"
 install: "pip install -r requirements.txt"
-script: coverage run --source=. --omit="test/*","venv/*" run_tests.py && codeclimate-test-reporter
+script:
     - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then python run_test.py; fi'
     - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then coverage run --source=. --omit="test/*","venv/*" run_tests.py; fi'
 after_success:
-    - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash codeclimate-test-reporter; fi'
+    - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then codeclimate-test-reporter; fi'
 cache: pip
