@@ -1,4 +1,5 @@
 class Effect:
+
     def __init__(self):
         pass
 
@@ -10,6 +11,7 @@ class Effect:
             player.effects.remove(self)
         except ValueError:
             pass
+
 
 class ExpiringEffect(Effect):
     time = 1

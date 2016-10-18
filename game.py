@@ -1,10 +1,13 @@
 from constants import DIRECTIONS
 from objects import OBJECTS
 
+
 class GameEnded(Exception):
     pass
 
+
 class Subfield:
+
     def __init__(self, size, squares, vwalls, hwalls):
         self.size = size
         self.squares = squares
@@ -29,7 +32,9 @@ class Subfield:
     def __getitem__(self, index):
         return self.squares[index.x()][index.y()]
 
+
 class Field:
+
     def __init__(self, fields):
         self.fields = fields
 
@@ -44,8 +49,10 @@ class Field:
         return self.fields[position.field].can_move(position, direction)
 
     def move(self, game, direction):
-        NAME = {(0, 1): "вправо :arrow_right:", (0, -1): "влево :arrow_left:", (-1, 0): "вверх :arrow_up:", (1, 0): "вниз :arrow_down:"}
-        result = self[game.player().position].can_move(game, game.player(), direction) 
+        NAME = {(0, 1): "вправо :arrow_right:", (0, -1): "влево :arrow_left:",
+                (-1, 0): "вверх :arrow_up:", (1, 0): "вниз :arrow_down:"}
+        result = self[game.player().position].can_move(
+            game, game.player(), direction)
         if result is None:
             result = self.can_move(game.player().position, direction)
             if result:
@@ -53,15 +60,15 @@ class Field:
         if result:
             game.log(game.player(), "Вы сходили {}".format(NAME[direction]))
         else:
-            game.log(game.player(), "Невозможно сходить {}. Там стена :no_entry:".format(NAME[direction]))
-
-            
+            game.log(game.player(), "Невозможно сходить {}. Там стена :no_entry:".format(
+                NAME[direction]))
 
     def __getitem__(self, position):
         return self.fields[position.field][position]
 
 
 class Game:
+
     def __init__(self, controller, field, players):
         self.controller = controller
         self.field = field
@@ -97,7 +104,7 @@ class Game:
         done = False
         if action in DIRECTIONS:
             self.field.move(self, DIRECTIONS[action])
-            done = True 
+            done = True
         elif action.split()[0] == "помощь":
             action = action.split()
             if len(action) > 1:
@@ -128,7 +135,7 @@ class Game:
             return
         self.log("Игра завершена")
         raise GameEnded()
-    
+
     def __getstate__(self):
         return (self.field, self.players, self.current_player)
 

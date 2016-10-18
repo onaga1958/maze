@@ -4,6 +4,7 @@ class Object:
 
 OBJECTS = {}
 
+
 def register_object(name, cls=None):
     def helper(cls):
         OBJECTS[name] = cls

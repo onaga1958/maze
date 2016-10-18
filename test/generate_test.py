@@ -12,7 +12,9 @@ from reader import read_field
 from position import Position
 from sys import argv, exit
 
+
 class Controller:
+
     def __init__(self, field_file, test_file, positions):
         self.test_file = open(test_file, "w")
         print(field_file, file=self.test_file)
@@ -20,7 +22,8 @@ class Controller:
         for el in positions:
             print(el.field, el.x(), el.y(), file=self.test_file)
         field = read_field(field_file)
-        players = [Player(str(name), pos) for name, pos in enumerate(positions)]
+        players = [Player(str(name), pos)
+                   for name, pos in enumerate(positions)]
         self.game = Game(self, field, players)
 
     def loop(self):
@@ -47,5 +50,5 @@ if __name__ == "__main__":
     test_file = argv[2]
     positions = []
     for i in range((len(argv) - 3) // 3):
-        positions.append(Position(*map(int, argv[3*i + 3: 3*i + 6])))
+        positions.append(Position(*map(int, argv[3 * i + 3: 3 * i + 6])))
     Controller(field_file, test_file, positions).loop()

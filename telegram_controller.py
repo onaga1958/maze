@@ -7,6 +7,7 @@ from random import shuffle
 import dill as pickle
 from emoji import emojize
 
+
 class TelegramController:
     instances = {}
 
@@ -16,7 +17,8 @@ class TelegramController:
         cls.updater.dispatcher.add_handler(CommandHandler('start', cls.create))
         cls.updater.dispatcher.add_handler(CommandHandler('go', cls.go))
         cls.updater.dispatcher.add_handler(CommandHandler('ready', cls.ready))
-        cls.updater.dispatcher.add_handler(MessageHandler([Filters.text], cls.on_message))
+        cls.updater.dispatcher.add_handler(
+            MessageHandler([Filters.text], cls.on_message))
         try:
             with open("pickle.bin", "rb") as f:
                 cls.instances = pickle.load(f)
@@ -27,7 +29,8 @@ class TelegramController:
 
     @staticmethod
     def create(bot, update):
-        instance = TelegramController(bot, update.message.chat_id, update.message.text.split()[1])
+        instance = TelegramController(
+            bot, update.message.chat_id, update.message.text.split()[1])
         TelegramController.instances[update.message.chat_id] = instance
         instance.start()
 
@@ -51,9 +54,12 @@ class TelegramController:
 
     def start(self):
         self.log("Начинается игра!")
-        self.log("Поле имеет размеры {0}x{0}".format(self.field.fields[0].size))
-        self.log('Чтобы присоединиться, напишите мне в личку "/go {} <имя> <начальная позиция>"'.format(self.chat_id))
-        self.log("Маленькие английские буквы по горизонтали, цифры с нуля по вертикали")
+        self.log("Поле имеет размеры {0}x{0}".format(
+            self.field.fields[0].size))
+        self.log(
+            'Чтобы присоединиться, напишите мне в личку "/go {} <имя> <начальная позиция>"'.format(self.chat_id))
+        self.log(
+            "Маленькие английские буквы по горизонтали, цифры с нуля по вертикали")
 
     def add(self, update, pid, name, pos):
         if not self.accept_players:
@@ -83,7 +89,8 @@ class TelegramController:
             self.game = Game(self, self.field, self.players)
 
     def log(self, message):
-        self.bot.sendMessage(chat_id=self.chat_id, text=emojize(message, use_aliases=True))
+        self.bot.sendMessage(chat_id=self.chat_id,
+                             text=emojize(message, use_aliases=True))
 
     def action(self, message):
         action = message.text
@@ -101,8 +108,9 @@ class TelegramController:
         with open("pickle.bin", "wb") as f:
             pickle.dump(TelegramController.instances, f)
         if update.message.chat_id in TelegramController.instances:
-            TelegramController.instances[update.message.chat_id].bot = bot 
-            TelegramController.instances[update.message.chat_id].action(update.message) 
+            TelegramController.instances[update.message.chat_id].bot = bot
+            TelegramController.instances[
+                update.message.chat_id].action(update.message)
 
     def __getstate__(self):
         return (self.chat_id, self.game)
@@ -110,4 +118,3 @@ class TelegramController:
     def __setstate__(self, state):
         self.chat_id, self.game = state
         self.game.controller = self
-

@@ -1,6 +1,8 @@
 from .effect import Effect
 
+
 class Stun(Effect):
+
     def __init__(self, time):
         self.time = time
 
@@ -13,5 +15,3 @@ class Stun(Effect):
             game.next_move()
         else:
             super(Stun, self).event(game, player, event)
-
-

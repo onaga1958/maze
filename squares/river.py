@@ -1,6 +1,8 @@
 from .square import Square
 
+
 class River(Square):
+
     def __init__(self, destination):
         super(River, self).__init__()
         self.destination = destination
@@ -10,4 +12,3 @@ class River(Square):
         if event == "start_turn":
             player.position = self.destination
             player.event(game, "arrive")
- 

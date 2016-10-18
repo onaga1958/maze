@@ -9,6 +9,7 @@ RIGHT = (0, 1)
 UP = (-1, 0)
 DOWN = (1, 0)
 
+
 def read_field(fname):
     f = open(fname)
     subfield_number = int(f.readline())
@@ -33,7 +34,8 @@ def read_field(fname):
                 row = f.readline()
                 for y in range(size):
                     hwalls[x][y] = row[2 * y] == "="
-        field.fields.append(Subfield(size, squares, vwalls=vwalls, hwalls=hwalls))
+        field.fields.append(
+            Subfield(size, squares, vwalls=vwalls, hwalls=hwalls))
     for j in range(len(keys)):
         row = f.readline()
         symbol = row[0]

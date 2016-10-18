@@ -12,7 +12,9 @@ from reader import read_field
 from position import Position
 from sys import argv, exit
 
+
 class Controller:
+
     def __init__(self, test_file):
         self.test_file = open(test_file, "r")
         self.output = open("{}.new".format(test_file), "w")

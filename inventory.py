@@ -1,6 +1,8 @@
 from objects import OBJECTS
 
+
 class Inventory:
+
     def __init__(self, objects=None):
         if objects:
             if isinstance(objects, Inventory):
@@ -24,7 +26,7 @@ class Inventory:
 
     def count(self, obj):
         return self.objects.get(obj, 0)
-    
+
     def __str__(self):
         if not self:
             return "ничего"
@@ -44,7 +46,7 @@ class Inventory:
 
     def __contains__(self, key):
         return key in self.objects
-    
+
     def action(self, game, player, action):
         obj, action = action.split()
         if obj not in self.objects:

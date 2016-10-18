@@ -1,6 +1,8 @@
 from inventory import Inventory
 
-class Player:         
+
+class Player:
+
     def __init__(self, name, position):
         self.start_position = position
         self.position = position

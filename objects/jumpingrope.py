@@ -1,6 +1,7 @@
 from .common_object import Object, register_object
 from squares import River
 
+
 @register_object("скакалка")
 class JumpingRope(Object):
     "прыгать - проверить: земля ли под вами?"
@@ -11,6 +12,4 @@ class JumpingRope(Object):
                 game.log("Вы прыгаете и слышите плеск воды")
             else:
                 game.log("Вы попрыгали. Кажется, под вами и правда земля")
-            return False 
-
-
+            return False

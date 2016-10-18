@@ -1,5 +1,6 @@
-from constants import DIRECTIONS 
+from constants import DIRECTIONS
 from .common_object import Object, register_object
+
 
 @register_object("патрон")
 class Bullet(Object):
@@ -23,5 +24,3 @@ class Bullet(Object):
                 else:
                     game.log("Вы промазали")
                     return True
-
-

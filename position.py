@@ -1,4 +1,5 @@
 class Position:
+
     def __init__(self, field, x, y=None):
         pos = x
         if y is not None:
@@ -10,7 +11,7 @@ class Position:
         if not isinstance(other, Position):
             raise TypeError()
         return self.field == other.field and \
-                self.pos == other.pos
+            self.pos == other.pos
 
     def __add__(self, other):
         if not isinstance(other, tuple):
@@ -24,7 +25,3 @@ class Position:
 
     def y(self):
         return self.pos[1]
-
-
-
-        

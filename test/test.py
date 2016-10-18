@@ -12,10 +12,13 @@ from reader import read_field
 from position import Position
 from sys import argv, exit
 
+
 class TestFailed(Exception):
     pass
 
+
 class Controller:
+
     def __init__(self, test_file):
         self.test_file = open(test_file, "r")
         field_file = self.test_file.readline()[:-1]
@@ -23,7 +26,8 @@ class Controller:
         player_number = int(self.test_file.readline())
         players = []
         for i in range(player_number):
-            players.append(Player(str(i), Position(*map(int, self.test_file.readline().split()))))
+            players.append(Player(str(i), Position(
+                *map(int, self.test_file.readline().split()))))
         self.game = Game(self, field, players)
 
     def test(self):

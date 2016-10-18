@@ -1,6 +1,8 @@
 from .square import Square
 
+
 class RubberRoom(Square):
+
     def __init__(self, direction):
         super(RubberRoom, self).__init__()
         self.direction = direction
@@ -10,5 +12,3 @@ class RubberRoom(Square):
             game.log("Вы вышли из резиновой комнаты")
             return None
         return True
-
-

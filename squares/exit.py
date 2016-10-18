@@ -1,6 +1,8 @@
 from .square import Square
 
+
 class Exit(Square):
+
     def __init__(self, direction):
         super(Exit, self).__init__()
         self.direction = direction
@@ -13,5 +15,3 @@ class Exit(Square):
             else:
                 game.log("Вы уперлись в закрытую дверь")
         return None
-
-
